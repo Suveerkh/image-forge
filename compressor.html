@@ -34,36 +34,51 @@
   <h2>Compress Your Image</h2>
   <input type="file" id="fileInput">
   <button onclick="compressImage()">Compress</button>
-  <a id="downloadLink" style="display:none">Download Compressed Image</a>
+  <a id="downloadLink" style="display:none" download="compressed.jpg">Download Compressed Image</a>
   <canvas id="canvas" style="display:none;"></canvas>
 </div>
 
 <script>
   let img = new Image();
+  let fileLoaded = false;
 
   document.getElementById('fileInput').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = e => { img.src = e.target.result; };
+      reader.onload = e => {
+        img.src = e.target.result;
+        fileLoaded = true;
+      };
       reader.readAsDataURL(file);
     }
   });
 
   function compressImage() {
+    if (!fileLoaded) {
+      alert("Please select an image first!");
+      return;
+    }
+
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
+
     img.onload = function() {
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
       const compressedData = canvas.toDataURL('image/jpeg', 0.5); // 50% quality
+
       const link = document.getElementById('downloadLink');
       link.href = compressedData;
-      link.download = 'compressed.jpg';
       link.style.display = 'inline';
       link.textContent = 'Download Compressed Image';
     };
+
+    // If image is already loaded
+    if (img.complete) {
+      img.onload(); // manually trigger compression
+    }
   }
 </script>
 
