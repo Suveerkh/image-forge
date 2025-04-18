@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to Grayscale - Image Tools</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; }
+    .menu {
+      background: #333;
+      padding: 10px;
+      text-align: center;
+    }
+    .menu a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 16px;
+    }
+    .menu a:hover { text-decoration: underline; }
+    .content { padding: 20px; text-align: center; }
+  </style>
+</head>
+<body>
+
+<div class="menu">
+  <a href="index.html">Home</a>
+  <a href="compressor.html">Image Compressor</a>
+  <a href="resizer.html">Image Resizer</a>
+  <a href="grayscale.html">Image to Grayscale</a>
+</div>
+
+<div class="content">
+  <h2>Convert Image to Grayscale</h2>
+  <input type="file" id="fileInput"><br><br>
+  <button onclick="convertToGrayscale()">Convert</button><br><br>
+  <a id="downloadLink" style="display:none" download="grayscale.jpg">Download Grayscale Image</a>
+  <canvas id="canvas" style="display:none;"></canvas>
+</div>
+
+<script>
+  let img = new Image();
+  let fileLoaded = false;
+
+  document.getElementById('fileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        img.src = e.target.result;
+        fileLoaded = true;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  function convertToGrayscale() {
+    if (!fileLoaded) {
+      alert("Please select an image first!");
+      return;
+    }
+
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    img.onload = function() {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      let data = imageData.data;
+
+      for (let i = 0; i < data.length; i += 4) {
+        let avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        data[i] = data[i + 1] = data[i + 2] = avg;  // Set R, G, B to average
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+
+      const grayData = canvas.toDataURL('image/jpeg', 1.0);
+      const link = document.getElementById('downloadLink');
+      link.href = grayData;
+      link.style.display = 'inline';
+      link.textContent = 'Download Grayscale Image';
+    };
+
+    if (img.complete) {
+      img.onload(); // Trigger if already loaded
+    }
+  }
+</script>
+
+</body>
+</html>
