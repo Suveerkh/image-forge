@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Crop Image</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Crop Image</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="compressor.html">Compressor</a>
+      <a href="resizer.html">Resizer</a>
+      <a href="grayscale.html">Grayscale</a>
+      <a href="convert.html">Convert Format</a>
+      <a href="crop.html">Crop Image</a>
+    </nav>
+  </header>
+  <main>
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="cropImage()">Crop Image</button>
+    <canvas id="canvas"></canvas>
+    <a id="downloadLink" style="display:none;" download="cropped-image">Download Cropped Image</a>
+  </main>
+  <script src="script-crop.js"></script>
+</body>
+</html>
