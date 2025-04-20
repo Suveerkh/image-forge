@@ -1,68 +1,32 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f9f9f9;
-  margin: 0;
-  padding: 0;
-  color: #333;
-}
-
-header {
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  padding: 20px;
-  text-align: center;
-}
-
-h1 {
-  margin: 0;
-  font-size: 28px;
-}
-
-nav {
-  margin-top: 10px;
-}
-
-nav a {
-  margin: 0 10px;
-  text-decoration: none;
-  color: #007bff;
-  font-weight: bold;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
-
-main {
-  padding: 30px;
-  max-width: 600px;
-  margin: auto;
-  text-align: center;
-}
-
-input[type="file"], select, button {
-  display: block;
-  margin: 20px auto;
-  padding: 12px 20px;
-  font-size: 16px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
-  transition: all 0.2s ease;
-}
-
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-canvas {
-  max-width: 100%;
-  margin-top: 20px;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Convert Image Format</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Convert Image Format</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="compressor.html">Compressor</a>
+      <a href="resizer.html">Resizer</a>
+      <a href="grayscale.html">Grayscale</a>
+      <a href="convert.html">Convert Format</a>
+    </nav>
+  </header>
+  <main>
+    <input type="file" id="imageInput" accept="image/*">
+    <select id="format">
+      <option value="image/png">PNG</option>
+      <option value="image/jpeg">JPEG</option>
+      <option value="image/webp">WEBP</option>
+    </select>
+    <button onclick="convertImage()">Convert</button>
+    <canvas id="canvas" style="display:none;"></canvas>
+    <a id="downloadLink" style="display:none;" download="converted-image">Download Image</a>
+  </main>
+  <script src="script-convert.js"></script>
+</body>
+</html>
