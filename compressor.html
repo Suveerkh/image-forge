@@ -1,86 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Compressor - Image Tools</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; }
-    .menu {
-      background: #333;
-      padding: 10px;
-      text-align: center;
-    }
-    .menu a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-size: 16px;
-    }
-    .menu a:hover { text-decoration: underline; }
-    .content { padding: 20px; text-align: center; }
-  </style>
+  <meta charset="UTF-8" />
+  <title>Image Compressor</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-<div class="menu">
-  <a href="index.html">Home</a>
-  <a href="compressor.html">Image Compressor</a>
-  <a href="#">Image Resizer</a>
-  <a href="#">Image Converter</a>
-</div>
-
-<div class="content">
-  <h2>Compress Your Image</h2>
-  <input type="file" id="fileInput">
-  <button onclick="compressImage()">Compress</button>
-  <a id="downloadLink" style="display:none" download="compressed.jpg">Download Compressed Image</a>
-  <canvas id="canvas" style="display:none;"></canvas>
-</div>
-
-<script>
-  let img = new Image();
-  let fileLoaded = false;
-
-  document.getElementById('fileInput').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        img.src = e.target.result;
-        fileLoaded = true;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-
-  function compressImage() {
-    if (!fileLoaded) {
-      alert("Please select an image first!");
-      return;
-    }
-
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-
-    img.onload = function() {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      const compressedData = canvas.toDataURL('image/jpeg', 0.5); // 50% quality
-
-      const link = document.getElementById('downloadLink');
-      link.href = compressedData;
-      link.style.display = 'inline';
-      link.textContent = 'Download Compressed Image';
-    };
-
-    // If image is already loaded
-    if (img.complete) {
-      img.onload(); // manually trigger compression
-    }
-  }
-</script>
-
+  <header>
+    <h1>Image Compressor</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="compressor.html">Compressor</a>
+      <a href="resizer.html">Resizer</a>
+      <a href="grayscale.html">Grayscale</a>
+      <a href="convert.html">Convert Format</a>
+      <a href="crop.html">Crop Image</a>
+    </nav>
+  </header>
+  <main>
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="compressImage()">Compress</button>
+    <canvas id="canvas" style="display:none;"></canvas>
+    <a id="downloadLink" style="display:none;" download="compressed-image">Download Compressed Image</a>
+  </main>
+  <script src="script-compressor.js"></script>
 </body>
 </html>
